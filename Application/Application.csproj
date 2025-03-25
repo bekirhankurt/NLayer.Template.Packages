@@ -6,4 +6,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.4.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CrossCuttingConcerns\CrossCuttingConcerns.csproj" />
+      <ProjectReference Include="..\Security\Security.csproj" />
+    </ItemGroup>
+
 </Project>
