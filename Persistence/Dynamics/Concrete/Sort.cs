@@ -12,6 +12,7 @@ public class Sort
 
     public Sort(string field, string dir)
     {
-        
+        Field = field;
+        Dir = dir;
     }
 }
