@@ -2,7 +2,7 @@
 
 namespace Security.Entities;
 
-public class OperationClaim: Entity
+public class OperationClaim<TId> : Entity<TId>
 {
     public string Name { get; set; }
 
@@ -10,7 +10,7 @@ public class OperationClaim: Entity
     {
     }
 
-    public OperationClaim(int id, string name) : base(id)
+    public OperationClaim(TId id, string name) : base(id)
     {
         Name = name;
     }

@@ -3,7 +3,7 @@ using Security.Enums;
 
 namespace Security.Entities;
 
-public class User : Entity
+public class User<TId> : Entity<TId>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -13,16 +13,16 @@ public class User : Entity
     public bool Status { get; set; }
     public AuthenticatorType AuthenticatorType { get; set; }
 
-    public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set; }
-    public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
+    public virtual ICollection<UserOperationClaim<TId>> UserOperationClaims { get; set; }
+    public virtual ICollection<RefreshToken<TId>> RefreshTokens { get; set; }
 
     public User()
     {
-        UserOperationClaims = new HashSet<UserOperationClaim>();
-        RefreshTokens = new HashSet<RefreshToken>();
+        UserOperationClaims = new HashSet<UserOperationClaim<TId>>();
+        RefreshTokens = new HashSet<RefreshToken<TId>>();
     }
 
-    public User(int id, string firstName, string lastName, string email, byte[] passwordSalt, byte[] passwordHash,
+    public User(TId id, string firstName, string lastName, string email, byte[] passwordSalt, byte[] passwordHash,
         bool status, AuthenticatorType authenticatorType) : this()
     {
         Id = id;

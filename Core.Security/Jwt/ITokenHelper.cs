@@ -2,9 +2,9 @@
 
 namespace Security.Jwt;
 
-public interface ITokenHelper
+public interface ITokenHelper<TId>
 {
-    AccessToken CreateToken(User user, IList<OperationClaim> operationClaims);
+    AccessToken CreateToken(User<TId> user, IList<OperationClaim<TId>> operationClaims);
 
-    RefreshToken CreateRefreshToken(User user, string ipAddress);
+    RefreshToken<TId> CreateRefreshToken(User<TId> user, string ipAddress);
 }

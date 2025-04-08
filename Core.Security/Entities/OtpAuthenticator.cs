@@ -2,19 +2,19 @@
 
 namespace Security.Entities;
 
-public class OtpAuthenticator : Entity
+public class OtpAuthenticator <TId> : Entity<TId>
 {
     public int UserId { get; set; }
     public byte[] SecretKey { get; set; }
     public bool IsVerified { get; set; }
 
-    public virtual User User { get; set; }
+    public virtual User<TId> User { get; set; }
 
     public OtpAuthenticator()
     {
     }
 
-    public OtpAuthenticator(int id, int userId, byte[] secretKey, bool isVerified) : this()
+    public OtpAuthenticator(TId id, int userId, byte[] secretKey, bool isVerified) : this()
     {
         Id = id;
         UserId = userId;

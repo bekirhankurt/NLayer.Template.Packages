@@ -6,7 +6,7 @@ namespace Persistence.Paging.Concrete
     /// <summary>
     /// Represents a base paginated model, including properties for indexing and navigation.
     /// </summary>
-    public class BasePageableModel
+    public abstract class BasePageableModel
     {
         #region Properties
 

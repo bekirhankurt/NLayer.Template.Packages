@@ -10,7 +10,7 @@ using Security.Extensions;
 
 namespace Security.Jwt;
 
-public class JwtHelper: ITokenHelper
+public class JwtHelper<TId> : ITokenHelper<TId>
 {
     public IConfiguration Configuration { get; }
     private readonly TokenOptions _tokenOptions;
@@ -22,7 +22,7 @@ public class JwtHelper: ITokenHelper
         _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
     }
     
-    public AccessToken CreateToken(User user, IList<OperationClaim> operationClaims)
+    public AccessToken CreateToken(User<TId> user, IList<OperationClaim<TId>> operationClaims)
     {
         _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
         var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
@@ -38,13 +38,13 @@ public class JwtHelper: ITokenHelper
         };
     }
 
-    private JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user, SigningCredentials signingCredentials, IList<OperationClaim> operationClaims)
+    private JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User<TId> user, SigningCredentials signingCredentials, IList<OperationClaim<TId>> operationClaims)
     {
         return new JwtSecurityToken(tokenOptions.Issuer, tokenOptions.Audience, expires: _accessTokenExpiration,
             notBefore: DateTime.Now, claims: SetClaims(user, operationClaims), signingCredentials: signingCredentials);
     }
 
-    private static IEnumerable<Claim> SetClaims(User user, IList<OperationClaim> operationClaims)
+    private static IEnumerable<Claim> SetClaims(User<TId> user, IList<OperationClaim<TId>> operationClaims)
     {
         var claims = new List<Claim>();
         claims.AddNameIdentifier(user.Id.ToString());
@@ -55,9 +55,9 @@ public class JwtHelper: ITokenHelper
         return claims;
     }
 
-    public RefreshToken CreateRefreshToken(User user, string ipAddress)
+    public RefreshToken<TId> CreateRefreshToken(User<TId> user, string ipAddress)
     {
-        return new RefreshToken
+        return new RefreshToken<TId>
         {
             UserId = user.Id,
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
